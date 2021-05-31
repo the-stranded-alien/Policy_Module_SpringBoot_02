@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title> Risk </title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle Navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/}"> Policy Module - Policy Home </a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/}"> Home </a></li>
+                <li><a th:href="@{/risk}"> Risk Home </a></li>
+                <li><a th:href="@{/activity}"> Activity Logs </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}"> <b> Logout </b> </a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container my-2">
+    <br><br><hr>
+    <h2> Your Policy List </h2>
+    <br>
+    <a th:href="@{policy/showNewPolicyForm}" class="btn btn-primary btn-sm mb-3"> Add A New Policy </a>
+    <br>
+    <hr>
+    <table border="1" class = "table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>
+                <a th:href="@{'/policy/page/' + ${currentPage} + '?sortField=policyName&sortDir=' + ${reverseSortDir}}">
+                    Policy Name
+                </a>
+            </th>
+            <th>
+                <a th:href="@{'/policy/page/' + ${currentPage} + '?sortField=remedyType&sortDir=' + ${reverseSortDir}}">
+                    Remedy Type
+                </a>
+            </th>
+            <th>
+                <a th:href="@{'/policy/page/' + ${currentPage} + '?sortField=remedyTime&sortDir=' + ${reverseSortDir}}">
+                    Remedy Time
+                </a>
+            </th>
+            <th>
+                <a th:href="@{'/policy/page/' + ${currentPage} + '?sortField=notifyUser&sortDir=' + ${reverseSortDir}}">
+                    Notify User
+                </a>
+            </th>
+            <th>
+                <a th:href="@{'/policy/page/' + ${currentPage} + '?sortField=notifyAdmin&sortDir=' + ${reverseSortDir}}">
+                    Notify Admin
+                </a>
+            </th>
+            <th>
+                <a th:href="@{'/policy/page/' + ${currentPage} + '?sortField=adminEmail&sortDir=' + ${reverseSortDir}}">
+                    Admin Email
+                </a>
+            </th>
+            <th>
+                <a th:href="@{'/policy/page/' + ${currentPage} + '?sortField=adminEmailSubject&sortDir=' + ${reverseSortDir}}">
+                    Admin Email Subject
+                </a>
+            </th>
+            <th>
+                <a th:href="@{'/policy/page/' + ${currentPage} + '?sortField=risksIncluded&sortDir=' + ${reverseSortDir}}">
+                    Risks Included
+                </a>
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="policy : ${listPolicies}">
+            <td th:text="${policy.policyName}"></td>
+            <td th:text="${policy.remedyType}"></td>
+            <td th:text="${policy.remedyTime}"></td>
+            <td th:text="${policy.notifyUser}"></td>
+            <td th:text="${policy.notifyAdmin}"></td>
+            <td th:text="${policy.adminEmail}"></td>
+            <td th:text="${policy.adminEmailSubject}"></td>
+            <td th:text="${policy.risksInvolved}"></td>
+            <td>
+                <a th:href="@{policy/showUpdatePolicyForm/{id}(id=${policy.id})}" class="btn btn-primary"> Update </a>
+                <br>
+                <a th:href="@{policy/deletePolicy/{id}(id=${policy.id})}" class="btn btn-danger"> Delete </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${totalPages > 1}">
+        <div class="row col-sm-10">
+            Total Rows : [[${totalItems}]]
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}" th:href="@{'/policy/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> [[${i}]] </a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span>
+            <a th:if="${currentPage < totalPages}" th:href="@{'/policy/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> Next </a>
+            <span th:unless="${currentPage < totalPages}">Next</span>
+            <a th:if="${currentPage <= totalPages && currentPage - 1 > 0}" th:href="@{'/policy/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> Back </a>
+            <span th:unless="${currentPage <= totalPages && currentPage - 1 > 0}">Back</span>
+            <a th:if="${currentPage < totalPages}" th:href="@{'/policy/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> Last </a>
+            <span th:unless="${currentPage < totalPages}">Last</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

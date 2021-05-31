@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title> Risk </title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle Navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/}"> Policy Module - Update Risk </a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/}"> Home </a></li>
+                <li><a th:href="@{/risk}"> Risk Home </a></li>
+                <li><a th:href="@{/policy}"> Policy Home </a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container">
+    <hr>
+    <h2> Update Risk </h2>
+    <hr>
+    <form action="#" th:action="@{/risk/saveRisk}" th:object="${risk}" method="POST">
+        <!-- Add hidden form field to handle update -->
+        <input type="hidden" th:field="*{id}" />
+        Risk Title : <input type="text" th:field="*{title}" class="form-control mb-4 col-4">
+        Description : <input type="text" th:field="*{description}" class="form-control mb-4 col-4">
+        Key Words : <input type="text" th:field="*{keyWords}" class="form-control mb-4 col-4">
+        Regex : <input type="text" th:field="*{regex}" class="form-control mb-4 col-4">
+        Risk Match Count : <input type="number" th:field="*{riskMatchCount}" class="form-control mb-4 col-4">
+        Status : <input type="checkbox" th:field="*{status}" class="form-control mb-4 col-4">
+        <hr>
+        <button type="submit" class="btn btn-info col-2"> Update Risk </button>
+    </form>
+    <hr>
+    <a th:href = "@{/}"> Back to Risk List </a>
+</div>
+</body>
+</html>

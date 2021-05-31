@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title> Policy </title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle Navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/}"> Policy Module - Update Policy </a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/}"> Home </a></li>
+                <li><a th:href="@{/risk}"> Risk Home </a></li>
+                <li><a th:href="@{/policy}"> Policy Home </a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container">
+    <hr>
+    <h2> Update Policy </h2>
+    <hr>
+    <form action="#" th:action="@{/policy/updatePolicy}" th:object="${policy}" method="POST">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{creator}"/>
+        Policy Name : <input type="text" th:field="*{policyName}" class="form-control mb-4 col-4" />
+        Remedy Type : <input type="text" th:field="*{remedyType}" class="form-control mb-4 col-4" />
+        Remedy Time : <input type="number" th:field="*{remedyTime}" class="form-control mb-4 col-4" />
+        Notify User : <input type="checkbox" th:field="*{notifyUser}" class="form-control mb-4 col-4" />
+        Notify Admin : <input type="checkbox" th:field="*{notifyAdmin}" class="form-control mb-4 col-4" />
+        Admin Email : <input type="text" th:field="*{adminEmail}" class="form-control mb-4 col-4" />
+        Admin Email Subject : <input type="text" th:field="*{adminEmailSubject}" class="form-control mb-4 col-4" />
+        <hr>
+        <div class="form-group">
+            <label class="control-label" for="risksInvolved"> Modify Risks </label>
+            <br>
+            <div class="form-check" th:each="risk : ${userRisks}">
+                <input multiple="multiple" id="risksInvolved" type="checkbox" class="form-check-input" name="risksInvolved[]"
+                       th:id="${risk.getId()}"
+                       th:value="${risk.getId()}"
+                       th:field="*{risksInvolved}"
+                       th:selected="${selectedRisks.contains(risk.getId())}"
+                       th:disabled="${disabledRisks.contains(risk.getId())}"
+                />
+                <label class="form-check-label" th:for="${risk.getId()}" th:text="${risk.getTitle()} + ' : ( ' + ${risk.getDescription()} + ' ) '"></label>
+            </div>
+        </div>
+        <hr>
+        <button type="submit" class="btn btn-info col-2"> Update Policy </button>
+    </form>
+    <hr>
+    <a th:href = "@{/}"> Back to Policy List </a>
+</div>
+</body>
+</html>
